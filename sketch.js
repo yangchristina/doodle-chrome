@@ -1,5 +1,4 @@
 /*
-    1. sticky bar
     2. input RGB
     3. highlighter
     must refresh page first to work?? idk if this is still a problem
@@ -29,6 +28,8 @@ var s = function(sketch) {
     let height;
     let prevPos;
     let barHeight;
+    let input, button, greeting;
+    let stickyX, stickyY;
 
     sketch.setup = function() {
         let body = document.body,
@@ -41,12 +42,28 @@ var s = function(sketch) {
         c.style('pointer-events', 'none');
         c.style('z-index', '999');
 
+        //input
+        input = sketch.createInput();
+        input.position(20, 65);
+
+        button = sketch.createButton('submit');
+        button.position(input.x + input.width, 65);
+        button.mousePressed(sketch.Greet);
+
+        greeting = sketch.createElement('h2', 'color?');
+        greeting.position(20, 5);
+
+        sketch.textAlign(sketch.CENTER);
+        sketch.textSize(50);
+
         //variables
         size = 4
         color = 255
         pos = 0
         prevPos = pos
         barHeight = 50
+        stickyX = sketch.windowWidth/4
+        stickyY = pos + sketch.windowHeight-barHeight+10
 
         sketch.clear();
     };
@@ -83,35 +100,41 @@ var s = function(sketch) {
         sketch.stroke(color, 204, 100);
     }
     sketch.BrushSize = function() {
-        if (sketch.keyIsDown(187)&& size < 400) {
+        
+    }
+    sketch.Clear = function() {
+        sketch.clear();
+    }
+    sketch.keyPressed = function() {
+        if(sketch.keyCode === 65){
+            painting = !painting
+        }
+
+        if (sketch.keyCode === 187 && size < 400) {
             size++
         }
-        else if (sketch.keyIsDown(189) && size > 1) {
+        else if (sketch.keyCode === 189 && size > 1) {
             size--
         }
         sketch.strokeWeight(size);
         console.log(size)
     }
-    sketch.Clear = function() {
-        sketch.clear();
-    }
-    sketch.keyTyped = function() {
-        if(sketch.key === 'a'){
-            painting = !painting
-            if(r){
-                r.hide()
-            }
-            
-        }
-    }
-    sketch.drawRect = function() {
+    sketch.drawRect = function(name) {
         sketch.noStroke()
         sketch.fill('pink');
         r = sketch.rect(0, pos + sketch.windowHeight-barHeight, sketch.windowWidth, barHeight);
         sketch.fill('black')
         sketch.textSize(24)
         sketch.text(`HSB color: (${color}, 204, 100), brush size: ${size}`, sketch.windowWidth/4, pos + sketch.windowHeight-barHeight+10, sketch.windowWidth, barHeight)
-        
+        if(name)
+            sketch.text(name, stickyX/2, stickyY+10);
+    }
+    sketch.Greet = function() {
+        const name = input.value();
+        greeting.html('hello ' + name + '!');
+        input.value('');
+        sketch.fill('black')
+        sketch.drawRect(name)
     }
 
     sketch.mouseWheel = function(event) {
@@ -133,12 +156,11 @@ var s = function(sketch) {
         }
 
         prevPos = pos
-
-        
-        
         //uncomment to block page scrolling
         //return false;
       }
+    
+    
 };
 
 var myp5 = new p5(s);
