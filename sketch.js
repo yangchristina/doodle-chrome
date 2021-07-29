@@ -1,5 +1,5 @@
 /*
-    2. input RGB
+    2. change color to rbg
     3. highlighter
     must refresh page first to work?? idk if this is still a problem
     can't draw over entire page
@@ -30,6 +30,7 @@ var s = function(sketch) {
     let barHeight;
     let input, button, greeting;
     let stickyX, stickyY;
+    let name;
 
     sketch.setup = function() {
         let body = document.body,
@@ -65,6 +66,9 @@ var s = function(sketch) {
         stickyX = sketch.windowWidth/4
         stickyY = pos + sketch.windowHeight-barHeight+10
 
+        //color
+        sketch.stroke('black');
+
         sketch.clear();
     };
 
@@ -72,7 +76,7 @@ var s = function(sketch) {
         if (painting){
             document.body.style['userSelect'] = 'none';
 
-            sketch.Color();
+            // sketch.Color();
             sketch.BrushSize();
             sketch.Paint(); 
             sketch.drawRect();          
@@ -85,20 +89,25 @@ var s = function(sketch) {
             
     };
     sketch.Paint = function() {
+        if(!name){
+            sketch.stroke(0);
+        }else{
+            sketch.stroke(name);
+        }
         if (sketch.mouseIsPressed) {
             sketch.line(sketch.mouseX, sketch.mouseY, sketch.pmouseX, sketch.pmouseY);
-            }
-    }
-    sketch.Color = function() {
-        sketch.colorMode(sketch.HSB)
-        
-        if (sketch.keyIsDown(67) && color < 360) {
-            color += 50
-            if(color > 360)
-                color= color-360
         }
-        sketch.stroke(color, 204, 100);
     }
+    // sketch.Color = function() {
+    //     sketch.colorMode(sketch.HSB)
+        
+    //     if (sketch.keyIsDown(67) && color < 360) {
+    //         color += 50
+    //         if(color > 360)
+    //             color= color-360
+    //     }
+    //     sketch.stroke(name, 204, 100);
+    // }
     sketch.BrushSize = function() {
         
     }
@@ -119,22 +128,22 @@ var s = function(sketch) {
         sketch.strokeWeight(size);
         console.log(size)
     }
-    sketch.drawRect = function(name) {
+    sketch.drawRect = function() {
         sketch.noStroke()
         sketch.fill('pink');
         r = sketch.rect(0, pos + sketch.windowHeight-barHeight, sketch.windowWidth, barHeight);
         sketch.fill('black')
         sketch.textSize(24)
-        sketch.text(`HSB color: (${color}, 204, 100), brush size: ${size}`, sketch.windowWidth/4, pos + sketch.windowHeight-barHeight+10, sketch.windowWidth, barHeight)
+        sketch.text(`HSB color: ${name ? name : "black"}, brush size: ${size}`, sketch.windowWidth/4, pos + sketch.windowHeight-barHeight+10, sketch.windowWidth, barHeight)
         if(name)
             sketch.text(name, stickyX/2, stickyY+10);
     }
     sketch.Greet = function() {
-        const name = input.value();
-        greeting.html('hello ' + name + '!');
+        name = input.value();
         input.value('');
         sketch.fill('black')
         sketch.drawRect(name)
+        sketch.stroke(name);
     }
 
     sketch.mouseWheel = function(event) {
