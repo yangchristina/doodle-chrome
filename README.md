@@ -1,4 +1,5 @@
 # doodle-chrome
+adapted from: https://www.youtube.com/watch?v=IXXNIcQQLU8
 
 hold mouse to paint
 
