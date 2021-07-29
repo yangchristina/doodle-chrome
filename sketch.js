@@ -8,9 +8,10 @@
 var s = function(sketch) {
     let size;
     let color;
+    let painting = true;
 
     sketch.setup = function() {
-        document.body.style['userSelect'] = 'none';
+        
         let h = document.body.clientHeight;
         let c = sketch.createCanvas(document.body.clientWidth, document.body.clientWidth);
         c.position(0, 0);
@@ -24,17 +25,22 @@ var s = function(sketch) {
     };
 
     sketch.draw = function() {
-        sketch.Color();
-        sketch.BrushSize();
-        sketch.Paint();
+        if (painting){
+            document.body.style['userSelect'] = 'none';
 
-        if (sketch.keyIsDown(90)) {
-            sketch.clear();
-        }
+            sketch.Color();
+            sketch.BrushSize();
+            sketch.Paint();
+
+            if (sketch.keyIsDown(90)) {
+                sketch.clear();
+            }
+        }else
+            document.body.style['userSelect'] = 'auto';
     };
 
     sketch.Paint = function() {
-        if (sketch.keyIsDown(sketch.SHIFT)) {
+        if (sketch.mouseIsPressed) {
             sketch.line(sketch.mouseX, sketch.mouseY, sketch.pmouseX, sketch.pmouseY);
             }
     }
@@ -62,6 +68,11 @@ var s = function(sketch) {
         sketch.clear();
     }
 
+    sketch.keyTyped = function() {
+        if(sketch.key === 'a'){
+            painting = !painting
+        }
+    }
 };
 
 var myp5 = new p5(s);
