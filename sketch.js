@@ -1,8 +1,7 @@
 //issues
 /*
-    can't draw over certain things
-    can't always hilight text
-    must refresh page first to work
+    must refresh page first to work?? idk if this is still a problem
+    can't draw over entire page
 */
 
 var s = function(sketch) {
@@ -11,11 +10,10 @@ var s = function(sketch) {
     let painting = true;
 
     sketch.setup = function() {
-        
-        let h = document.body.clientHeight;
         let c = sketch.createCanvas(document.body.clientWidth, document.body.clientWidth);
         c.position(0, 0);
         c.style('pointer-events', 'none');
+        c.style('z-index', '999')
 
         //variables
         size = 4
@@ -35,10 +33,11 @@ var s = function(sketch) {
             if (sketch.keyIsDown(90)) {
                 sketch.clear();
             }
-        }else
+        }else{
             document.body.style['userSelect'] = 'auto';
+        }
+            
     };
-
     sketch.Paint = function() {
         if (sketch.mouseIsPressed) {
             sketch.line(sketch.mouseX, sketch.mouseY, sketch.pmouseX, sketch.pmouseY);
@@ -55,10 +54,10 @@ var s = function(sketch) {
         sketch.stroke(color, 204, 100);
     }
     sketch.BrushSize = function() {
-        if (sketch.keyIsDown(sketch.UP_ARROW)&& size < 400) {
+        if (sketch.keyIsDown(187)&& size < 400) {
             size++
         }
-        else if (sketch.keyIsDown(sketch.DOWN_ARROW) && size > 0) {
+        else if (sketch.keyIsDown(189) && size > 1) {
             size--
         }
         sketch.strokeWeight(size);
@@ -67,7 +66,6 @@ var s = function(sketch) {
     sketch.Clear = function() {
         sketch.clear();
     }
-
     sketch.keyTyped = function() {
         if(sketch.key === 'a'){
             painting = !painting
