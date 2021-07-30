@@ -1,11 +1,13 @@
 # doodle-chrome
+Chrome extension
 adapted from: https://www.youtube.com/watch?v=IXXNIcQQLU8
 
+starts when '`' is pressed
 hold mouse to paint
+input a svg named color or an rbg value into and click 'submit' to change the color of the brush
 
 key commands:
-  'c' changes color
+  '`' toggles extension functions on and off
   'z' clears page
-  '-' decreases brush size
   '+' increases brush size
-  'a' toggles extension functions on and off
+  '-' decreases brush size
