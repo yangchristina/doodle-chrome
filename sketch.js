@@ -76,12 +76,18 @@ var s = function(sketch) {
         if (painting){
             document.body.style['userSelect'] = 'none';
 
-            // sketch.Color();
+            input.show()
+            button.show()
+            greeting.show()
+
             sketch.BrushSize();
             sketch.Paint(); 
             sketch.drawRect();          
         }else{
             document.body.style['userSelect'] = 'auto';
+            input.hide()
+            button.hide()
+            greeting.hide()
         }
         if (sketch.keyIsDown(90)) {
             sketch.clear();
