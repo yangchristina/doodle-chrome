@@ -121,7 +121,7 @@ var s = function(sketch) {
         sketch.clear();
     }
     sketch.keyPressed = function() {
-        if(sketch.keyCode === 65){
+        if(sketch.keyCode === 192){
             painting = !painting
         }
 
