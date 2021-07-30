@@ -1,5 +1,4 @@
 /*
-    2. change color to rbg
     3. highlighter
     must refresh page first to work?? idk if this is still a problem
     can't draw over entire page
@@ -9,10 +8,6 @@
     bar at bottom that shows info: color, brush size
 
     for max height:
-    
-
-    
-
     s = window.getSelection(); //Returns a Selection
     oRange = s.getRangeAt(0); //get the text range
     oRect = oRange.getBoundingClientRect();
@@ -23,7 +18,6 @@ var s = function(sketch) {
     let size;
     let color;
     let painting = false;
-    let r;
     let pos;
     let height;
     let prevPos;
@@ -137,7 +131,7 @@ var s = function(sketch) {
     sketch.drawRect = function() {
         sketch.noStroke()
         sketch.fill('pink');
-        r = sketch.rect(0, pos + sketch.windowHeight-barHeight, sketch.windowWidth, barHeight);
+        sketch.rect(0, pos + sketch.windowHeight-barHeight, sketch.windowWidth, barHeight);
         sketch.fill('black')
         sketch.textSize(24)
         sketch.text(`HSB color: ${name ? name : "black"}, brush size: ${size}`, sketch.windowWidth/4, pos + sketch.windowHeight-barHeight+10, sketch.windowWidth, barHeight)
